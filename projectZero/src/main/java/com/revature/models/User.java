@@ -8,7 +8,7 @@ public class User {
 		String userPhoneNumer;
 		
 		
-		User(String userFirstName, String userFastName, String userEmail, String userPhoneNumer){
+		public User(String userFirstName, String userFastName, String userEmail, String userPhoneNumer){
 			this.userFirstName = userFirstName;
 			this.userFastName = userFastName;
 			this.userEmail = userEmail;
