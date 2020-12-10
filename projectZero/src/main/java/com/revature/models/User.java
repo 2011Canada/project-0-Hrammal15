@@ -2,25 +2,17 @@ package com.revature.models;
 
 public class User {
 	
-		String userFirstName;
-		String userFastName;
-		String userEmail;
-		String userPhoneNumer;
+		String firstName;
+		String usetName;
+		String email;
+		String phoneNumer;
 		
 		
-		public User(String userFirstName, String userFastName, String userEmail, String userPhoneNumer){
-			this.userFirstName = userFirstName;
-			this.userFastName = userFastName;
-			this.userEmail = userEmail;
-			this.userPhoneNumer = userPhoneNumer;
-			
-		}
-		
-		public void userLogin() {
-			
-		}
-		
-		public void userRegisterAccount() {
+		public User(String firstName, String lastName, String email, String phoneNumer){
+			this.firstName = firstName;
+			this.usetName = lastName;
+			this.email = email;
+			this.phoneNumer = phoneNumer;
 			
 		}
 
