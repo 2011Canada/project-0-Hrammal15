@@ -33,9 +33,9 @@ public class AuthenticationController {
 			
 			System.out.println("Please enter the following to sign in \n");
 			System.out.println("Input your username \n");
-			username = sc.nextLine();
+			username = sc.next();
 			System.out.println("Input your password \n");
-			password = sc.nextLine();
+			password = sc.next();
 			UserService.login(username,password); //sends username and password to userservice
 
 					
