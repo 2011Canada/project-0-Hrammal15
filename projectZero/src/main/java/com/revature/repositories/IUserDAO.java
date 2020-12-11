@@ -1,7 +1,11 @@
 package com.revature.repositories;
 
+import com.revature.models.User;
+
 public interface IUserDAO {
 	
-	public user login(user li);
+	public User findUsername(User u);
+	
+	public User addAcount(User u);
 
 }
