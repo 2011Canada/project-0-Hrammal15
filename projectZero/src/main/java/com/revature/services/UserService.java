@@ -4,7 +4,7 @@ import com.revature.models.User;
 
 public class UserService {
 	
-	public static User login(String username, String password) {
+	public static User login(String username, String password) { //We created a user login object
 		System.out.println("username " + username + " password " + password );
 		return null;
 	}
@@ -13,6 +13,5 @@ public class UserService {
 		
 		return null;
 	}
-
 
 }
