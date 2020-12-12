@@ -1,8 +1,12 @@
 package com.revature.services;
 
-public interface UserService {
+import com.revature.exceptions.InternalErrorException;
+import com.revature.exceptions.UserNotFoundException;
 
-	public void login(String username, String password);
-	public void register(String username, String password, String email);
+public interface UserService {
+	
+	public void login(String username, String password) throws UserNotFoundException, InternalErrorException;
+	
+	public void register(String username, String password, String firstname, String lastname );
 
 }

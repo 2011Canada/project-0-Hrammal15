@@ -1,11 +1,14 @@
 package com.revature.repositories;
+import java.util.List;
 
+import com.revature.exceptions.InternalErrorException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 
 public interface IUserDAO {
 	
-	public User findUsername(User u);
+	public User findUserByUsernameAndPassword(String username, String password) throws UserNotFoundException, InternalErrorException;
 	
-	public User addAcount(User u);
-
+	public List<User> findAll();
+	
 }
