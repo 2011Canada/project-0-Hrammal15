@@ -16,16 +16,15 @@ public class UserDAO implements IUserDAO{
 	
 	
 	
-	public User findUserByUsernameAndPassword(String username, String password) throws UserNotFoundException, InternalErrorException{
+	public User findUserByUsername(String username) throws UserNotFoundException, InternalErrorException{
 		
 		
 		Connection conn = cf.getConnection();
 		try {
 			
-			String sql = "select * from users where \"username\" = ? and \"password\" = ?;";
+			String sql = "select * from users where \"username\" = ?;";
 			PreparedStatement getUser = conn.prepareStatement(sql);
 			getUser.setString(1, username);
-			getUser.setString(2, password);
 			
 			ResultSet res = getUser.executeQuery();
 			

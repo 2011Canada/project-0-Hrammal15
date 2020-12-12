@@ -7,7 +7,7 @@ import com.revature.models.User;
 
 public interface IUserDAO {
 	
-	public User findUserByUsernameAndPassword(String username, String password) throws UserNotFoundException, InternalErrorException;
+	public User findUserByUsername(String username) throws UserNotFoundException, InternalErrorException;
 	
 	public List<User> findAll();
 	
