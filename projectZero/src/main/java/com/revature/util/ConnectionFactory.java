@@ -14,9 +14,7 @@ public class ConnectionFactory {
 		return cf;
 	}
 	
-	
-
-	private Connection [] conn;
+	private Connection[] conn;
 
 	private ConnectionFactory(int numberOfConnections) {
 		

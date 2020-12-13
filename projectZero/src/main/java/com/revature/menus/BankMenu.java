@@ -5,13 +5,18 @@ package com.revature.menus;
 import java.util.*;
 
 import com.revature.exceptions.InternalErrorException;
+import com.revature.exceptions.InvalidInputsExeption;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.services.UserServiceImplementation;
 
 public class BankMenu{
 	UserServiceImplementation userService;
 	
+	
 
+	public BankMenu(UserServiceImplementation userService) {
+		this.userService = userService;
+	}
 
 	static Scanner sc = new Scanner(System.in);
 
@@ -24,8 +29,7 @@ public class BankMenu{
 
 	public void display() {
 		System.out.println("Hello and Welcome to the Bank of Hassen \n"
-				+ "Please input the appropriate number corresponding to you \n" + "1 - User\n"
-				+ "2 - Registered Customer\n" + "3 - An employee\n" + "0 - Exit");
+				+ "Please input the appropriate number corresponding to you \n" + "1 - To Proceed\n" + "0 - Exit");
 	}
 
 	
@@ -36,7 +40,8 @@ public class BankMenu{
 
 		if (initialInput == 1) {
 			userDisplay();
-			userMenuChoice();	
+			userMenuChoice();
+			
 		}else if(initialInput == 2) {//customermenu
 			customerDisplay();
 			customerMenuChoice();
@@ -45,6 +50,10 @@ public class BankMenu{
 		}else if(initialInput == 3) { //employeemenu
 			employeeDisplay();
 			employeeMenuChoice();
+
+		}else if(initialInput == 0) { //exit
+			System.out.println("Thanks for using my Bank System.");
+			System.exit(0);
 
 		}else{
 			System.out.println("Plese enter a valid input");
@@ -63,6 +72,8 @@ public class BankMenu{
 
 		if (input == 1) {
 			login();
+			
+		System.out.println();
 		} else if (input == 2) {
 			register();
 		} else {
@@ -72,13 +83,15 @@ public class BankMenu{
 
 	public void login() { //user login menu
 		Scanner us = new Scanner(System.in);
-		String username, password;
+		String username, password, type;
 		System.out.println("Please enter your username");// Take in user
 		username = us.next();
 		System.out.println("Please enter your password");// Take in pass
 		password = us.next();
+		System.out.println("Please enter whether you're an 'Employee' or 'Customer' ");// Take in pass
+		type = us.next();
 		try {
-			userService.login(username, password);
+			userService.login(username, password, type);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		} catch (InternalErrorException e) {
@@ -89,15 +102,23 @@ public class BankMenu{
 
 	public void register() { // user register menu
 		String username,password,firstname,lastname;
-		System.out.println("To register as a customer, please input the following\n Please enter a Username");
+		System.out.println("To register as a customer, please input the following\nPlease enter a Username");
 		username = sc.next();
-		System.out.println("Please enter a password");
+		System.out.println("\nPlease enter a password");
 		password = sc.next();
-		System.out.println("Please enter your First name");
+		System.out.println("\nPlease enter your First name");
 		firstname = sc.next();
-		System.out.println("Please enter your Last name");
+		System.out.println("\nPlease enter your Last name");
 		lastname = sc.next();
-		userService.register(username, password, firstname, lastname);
+		try {
+			userService.register(username, password, firstname, lastname);
+		} catch (InvalidInputsExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InternalErrorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -107,7 +128,7 @@ public class BankMenu{
 				+ "2 - View Balance Of My Account\n"
 				+ "3 - Withdrawal\n"
 				+ "4 - Deposit\n"
-				+ "5 - Send A Transfer "
+				+ "5 - Send A Transfer\n "
 				+ "6 - Accept A Transfer");
 	}
 	

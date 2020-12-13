@@ -21,13 +21,11 @@ public class UserDAO implements IUserDAO{
 		
 		Connection conn = cf.getConnection();
 		try {
-			
 			String sql = "select * from users where \"username\" = ?;";
 			PreparedStatement getUser = conn.prepareStatement(sql);
 			getUser.setString(1, username);
 			
 			ResultSet res = getUser.executeQuery();
-			
 			if(res.next()) {
 				User u = new User();
 				u.setUserId(res.getInt("user_id"));
@@ -36,9 +34,7 @@ public class UserDAO implements IUserDAO{
 				u.setFirstName(res.getString("firstname"));
 				u.setLastName(res.getString("lastname"));
 				return u;
-				
-				
-				
+			
 			}else {
 				throw new UserNotFoundException();
 			}
