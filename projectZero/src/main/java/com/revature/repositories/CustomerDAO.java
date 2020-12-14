@@ -22,7 +22,7 @@ public class CustomerDAO implements ICustomerDAO{
 			Connection conn = cf.getConnection();
 			try {
 				conn.setAutoCommit(false);
-				String sql = "select * from customers where \"username\" = ? and \"password\" = ?;";
+				String sql = "select * from users where \"username\" = ? and \"password\" = ?;";
 				PreparedStatement getCustomer = conn.prepareStatement(sql);
 				getCustomer.setString(1, username);
 				getCustomer.setString(2, password);
@@ -31,12 +31,11 @@ public class CustomerDAO implements ICustomerDAO{
 				
 				if(res.next()) {
 					Customer cmr = new Customer();
-					cmr.setCustomerId(res.getInt("customer_id"));
+					cmr.setUsername(res.getString("username"));
 					cmr.setPassword(res.getString("password"));
 					cmr.setFirstname(res.getString("firstname"));
 					cmr.setLastname(res.getString("lastname"));
 					cmr.setType(res.getString("type"));
-					cmr.setStatus(res.getString("status"));
 					return cmr;
 					
 					
@@ -103,15 +102,14 @@ public class CustomerDAO implements ICustomerDAO{
 		Connection conn = cf.getConnection();
 		try {
 			conn.setAutoCommit(false);
-			String sql = "insert into customers (username, password, firstname, lastname, status, type) "
-					+ "values(?,?,?,?,?,?);";
+			String sql = "insert into customers (username, password, firstname, lastname, type) "
+					+ "values(?,?,?,?,?);";
 			PreparedStatement setCustomer = conn.prepareStatement(sql);
 			setCustomer.setString(1, customer.getUsername());
 			setCustomer.setString(2, customer.getPassword());
 			setCustomer.setString(3, customer.getFirstname());
 			setCustomer.setString(4, customer.getLastname());
-			setCustomer.setString(5, "PENDING");
-			setCustomer.setString(6, "Customer");
+			setCustomer.setString(5, "customer");
 			
 			int res = setCustomer.executeUpdate();
 			conn.commit();

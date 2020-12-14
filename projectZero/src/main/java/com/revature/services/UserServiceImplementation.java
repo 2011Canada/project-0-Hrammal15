@@ -19,52 +19,27 @@ public class UserServiceImplementation implements UserService {
 	IUserDAO userDAO = new UserDAO();	
 	ICustomerDAO customerDAO = new CustomerDAO();
 	IEmployeeDAO employeeDAO = new EmployeeDAO(); 
-	BankMenu bmenu = new BankMenu(null);
-	Customer customer = new Customer();
-	EmployeeServicesImplementation esiobj = new EmployeeServicesImplementation(); 
-	
-	User u = new User();
-	Customer c = new Customer();
-	Employee e = new Employee();
-	
 	
 
 
-	public User login(String username, String password, String type) throws UserNotFoundException, InternalErrorException {
+	public User login(String username, String password) throws UserNotFoundException, InternalErrorException {
 		User u = userDAO.findUserByUsername(username);
-		Customer c = customerDAO.getCustomerInformation(username, password);
-		Employee e = employeeDAO.findEmployeeByUsernameAndPassword(username, password);
-		
 		
 		if(username.equals(u.getUsername()) && password.equals(u.getPassword())) {
-			if(type.equals("Customer")){
-				if(u.getFirstName().equals(c.getFirstname()) && u.getLastName().equals(c.getLastname())) {
-					bmenu.customerDisplay();
-					
-					
-		}}else if(type.equals("Employee")) {
-		if(u.getFirstName().equals(e.getFirstName()) && u.getLastName().equals(e.getLastName())) {
-					bmenu.employeeDisplay();
-					
-					
-				}}else {
-				System.out.println("Invalid Entry");
-				bmenu.login();
-			}
-			System.out.println(u);
 			return u;
-		}else {
-			throw new UserNotFoundException();
-		
 		}
+		return u;
+
 	}		
 			
-	public void register(String username, String password, String firstname, String lastname) throws InvalidInputsExeption, InternalErrorException {
-		customer.setUsername(username);
-		customer.setPassword(password);
-		customer.setFirstname(firstname);
-		customer.setLastname(lastname);
-		customerDAO.newAccount(customer);
+	public User register(String username, String password, String firstname, String lastname) throws InvalidInputsExeption, InternalErrorException {
+		User u = new User();
+		u.setUsername(username);
+		u.setPassword(password);
+		u.setFirstName(firstname);
+		u.setLastName(lastname);
+		userDAO.newAccount(u);
+		return u;
 	}
 
 

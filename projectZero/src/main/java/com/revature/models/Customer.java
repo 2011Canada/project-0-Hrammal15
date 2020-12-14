@@ -2,7 +2,6 @@ package com.revature.models;
 
 public class Customer {
 
-	String status;
 	String username;
 	String firstname;
 	String lastname;
@@ -14,21 +13,14 @@ public class Customer {
 	
 	
 	
-	
 	@Override
 	public String toString() {
-		return "Customer [status=" + status + ", username=" + username + ", firstname=" + firstname + ", lastname="
-				+ lastname + ", password=" + password + ", type=" + type + ", balance=" + balance + ", customerId="
-				+ customerId + "]";
+		return "Customer [username=" + username + ", firstname=" + firstname + ", lastname=" + lastname + ", password="
+				+ password + ", type=" + type + ", balance=" + balance + ", customerId=" + customerId + "]";
 	}
-	public Customer() {
+	public Customer(String username, String firstname, String lastname, String password, String type, int balance,
+			int customerId) {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Customer(String status, String username, String firstname, String lastname, String password, String type,
-			int balance, int customerId) {
-		super();
-		this.status = status;
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -36,6 +28,10 @@ public class Customer {
 		this.type = type;
 		this.balance = balance;
 		this.customerId = customerId;
+	}
+	public Customer() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public int hashCode() {
@@ -46,7 +42,6 @@ public class Customer {
 		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
 		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -79,11 +74,6 @@ public class Customer {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
 		if (type == null) {
 			if (other.type != null)
 				return false;
@@ -95,12 +85,6 @@ public class Customer {
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
 	}
 	public String getUsername() {
 		return username;
@@ -149,9 +133,7 @@ public class Customer {
 	
 	
 	
-	
-	
-	
+
 	
 
 	
