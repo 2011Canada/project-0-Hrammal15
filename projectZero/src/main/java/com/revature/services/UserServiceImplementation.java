@@ -3,6 +3,7 @@ package com.revature.services;
 import com.revature.exceptions.InternalErrorException;
 import com.revature.exceptions.InvalidInputsExeption;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.launcher.ProjectZeroLauncher;
 import com.revature.menus.BankMenu;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
@@ -23,12 +24,14 @@ public class UserServiceImplementation implements UserService {
 
 
 	public User login(String username, String password) throws UserNotFoundException, InternalErrorException {
-		User u = userDAO.findUserByUsername(username);
+		User u = userDAO.findUserByUsernameAndPassword(username,password);
 		
 		if(username.equals(u.getUsername()) && password.equals(u.getPassword())) {
 			return u;
 		}
+		ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just logged in");
 		return u;
+
 
 	}		
 			
@@ -39,6 +42,7 @@ public class UserServiceImplementation implements UserService {
 		u.setFirstName(firstname);
 		u.setLastName(lastname);
 		userDAO.newAccount(u);
+		ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Account was just created as a " + u.getType());
 		return u;
 	}
 

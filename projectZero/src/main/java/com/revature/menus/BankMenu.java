@@ -17,61 +17,35 @@ import com.revature.repositories.IEmployeeDAO;
 import com.revature.repositories.IUserDAO;
 import com.revature.repositories.UserDAO;
 import com.revature.services.CustomerServiceImplementation;
+import com.revature.services.EmployeeServicesImplementation;
 import com.revature.services.UserServiceImplementation;
 
 public class BankMenu {
 	UserServiceImplementation userService;
 	CustomerServiceImplementation customerService;
-	
-	IUserDAO userDAO = new UserDAO();	
-	IEmployeeDAO employeeDAO = new EmployeeDAO(); 
+	EmployeeServicesImplementation employeeService;
+	IUserDAO userDAO = new UserDAO();
+	IEmployeeDAO employeeDAO = new EmployeeDAO();
 	AccountDAO accountDAO = new AccountDAO();
 	CustomerDAO customerDAO = new CustomerDAO();
 	User u = new User();
 
-
-
 	static Scanner sc = new Scanner(System.in);
 
-	public BankMenu(UserServiceImplementation userService, CustomerServiceImplementation customerService) {
+	public BankMenu(UserServiceImplementation userService, CustomerServiceImplementation customerService,
+			EmployeeServicesImplementation employeeService) {
 		this.userService = userService;
 		this.customerService = customerService;
+		this.employeeService = employeeService;
 	}
-
-
-
-	public void initialize() {
-		userDisplay();
-	}
-
-
-
-	public void manageUserInput() {
-		int initialInput = sc.nextInt();
-
-		if (initialInput == 1) {
-			userDisplay();
-
-		} else if (initialInput == 2) {// customermenu
-			customerDisplay();
-
-		} else if (initialInput == 3) { // employeemenu
-			employeeDisplay();
-			employeeMenuChoice();
-
-		} else if (initialInput == 0) { // exit
-			System.out.println("Thanks for using my Bank System.");
-			System.exit(0);
-
-		} else {
-			System.out.println("Plese enter a valid input");
-		}
-	}
-
+	
 	public void userDisplay() {// Displays menu for user
-		System.out.println("Hello and Welcome to the Bank of Hassen\n"
-				+ "Please press \n" + "1 - Login \n" + "2 - Exit");
-		
+		System.out.println("======================");
+
+		System.out.println("Hello and Welcome to the Bank of Hassen\n" 
+							+ "Please press \n" + "1 - Login \n" + "2 - Exit");
+		System.out.println("======================");
+
 		int input = sc.nextInt();
 
 		if (input == 1) {
@@ -85,9 +59,33 @@ public class BankMenu {
 			System.out.println("invalid input");
 		}
 	}
-	
+
+
+	public void manageUserInput() {
+		int initialInput = sc.nextInt();
+
+		if (initialInput == 1) {
+			userDisplay();
+
+		} else if (initialInput == 2) {// customermenu
+			customerDisplay();
+
+		} else if (initialInput == 3) { // employeemenu
+			employeeDisplay();
+
+		} else if (initialInput == 0) { // exit
+			System.out.println("Thanks for using my Bank System.");
+			System.exit(0);
+
+		} else {
+			System.out.println("Plese enter a valid input");
+		}
+	}
+
+
 	public void login() { // user login menu
 		Scanner us = new Scanner(System.in);
+		
 		String username, password;
 		System.out.println("Please enter your username");// Take in user
 		username = us.next();
@@ -95,7 +93,7 @@ public class BankMenu {
 		password = us.next();
 		User u = null;
 		try {
-		u = userService.login(username, password);
+			u = userService.login(username, password);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		} catch (InternalErrorException e) {
@@ -103,45 +101,47 @@ public class BankMenu {
 		}
 		System.out.println(u);
 		System.out.println(u.getType());
-		if(u.getType().equals("employee")){
-			
+		if (u.getType().equals("employee")) {
+
 			employeeDisplay();
-			
-			
-		}else if(u.getType().equals("customer")){
-			
+
+		} else if (u.getType().equals("customer")) {
+
 			customerDisplayNoAccount();
-			
-			
-		}else if(u.getType().equals("customerA")) {
-			
+
+		} else if (u.getType().equals("customerA")) {
+
 			customerDisplay();
-			
-		}else if(u.getType().equals("user")) {
-			
+
+		} else if (u.getType().equals("user")) {
+
 			userDisplayNoAccount();
 		}
-				
 
 	}
-	
+
 	public void userDisplayNoAccount() {
+		System.out.println("======================");
+
 		System.out.println("You are logged in as a user. Choose one of the following options\n"
-				+ "1 - Create a CUSTOMER account\n"
-				+ "2 - Exit\n");
-		
+				+ "1 - Create a CUSTOMER account\n" + "2 - Exit\n");
+		System.out.println("======================");
+
+
 		int input = sc.nextInt();
-		
-		if(input == 1) {
+
+		if (input == 1) {
 			register();
-		}else {
+		} else {
 			System.exit(0);
 		}
-		
+
 	}
 
 	public void register() { // user register menu
 		String username, password, firstname, lastname;
+		System.out.println("======================");
+
 		System.out.println("To register as a customer, please input the following\nPlease enter a Username");
 		username = sc.next();
 		System.out.println("\nPlease enter a password");
@@ -150,8 +150,10 @@ public class BankMenu {
 		firstname = sc.next();
 		System.out.println("\nPlease enter your Last name");
 		lastname = sc.next();
+		System.out.println("======================");
+
 		try {
-			
+
 			userService.register(username, password, firstname, lastname);
 		} catch (InvalidInputsExeption e) {
 			// TODO Auto-generated catch block
@@ -164,10 +166,14 @@ public class BankMenu {
 	}
 
 	public User customerDisplayNoAccount() {
+		System.out.println("======================");
+
 		System.out.println("To proceed, either create an Account or sign in as a customer with an account.\n"
 				+ "Press the appropriate option\n" + "1 - Create An Account" + "\n2 - Sign in with a customer Account\n"
 				+ "3 - exit");
-		
+		System.out.println("======================");
+
+
 		int input = sc.nextInt();
 
 		if (input == 1) {
@@ -176,8 +182,7 @@ public class BankMenu {
 			login();
 			System.out.println(u.getUsername());
 			System.out.println(u.getType());
-			
-			
+
 		} else if (input == 3) {
 			System.exit(0);
 		} else {
@@ -185,78 +190,48 @@ public class BankMenu {
 		}
 		return u;
 	}
-	
-	
-	
-	
 
 	public void customerDisplay() {
+		System.out.println("======================");
 		System.out.println("Please press\n" + "1 - View Balance Of My Account\n" + "2 - Withdrawal\n" + "3 - Deposit\n"
 				+ "4 - Send A Transfer\n" + "5 - Accept A Transfer");
+		System.out.println("======================");
+
 		int input = sc.nextInt();
 		if (input == 1) {
-		customerService.viewBalance();
+			customerService.viewBalance();
 		} else if (input == 2) {
-		customerService.withdrawal();
+			customerService.withdrawal();
 		} else if (input == 3) {
-		customerService.deposit();
+			customerService.deposit();
 		} else if (input == 4) {
-			sendATransfer();
+			customerService.sendATransfer();
 		} else if (input == 5) {
-			acceptATransfer();
+			customerService.acceptATransfer();
 		} else {
 			System.out.println("invalid input");
 		}
 	}
-
-	private void acceptATransfer() {
-		// TODO Auto-generated method stub
-		System.out.println("Accept transfer");
-
-	}
-
-	private void sendATransfer() {
-		// TODO Auto-generated method stub
-		System.out.println("send transfer");
-
-	}
-
-
-
 
 
 	public void employeeDisplay() {
+		System.out.println("======================");
+
 		System.out.println("Please press\n" + "1 - View Pending Accounts\n" + "2 - View Customer Account\n"
 				+ "3 - View All Transactions\n");
+		System.out.println("======================");
 
-	}
-
-	public void employeeMenuChoice() {
 		int input = sc.nextInt();
 
 		if (input == 1) {
-			pendingAccounts();
+			employeeService.acceptOrReject();
 		} else if (input == 2) {
-			customerAcocunts();
+			employeeService.viewBankAccount();
 		} else if (input == 3) {
-			transactions();
+			employeeService.readTransactions();
 		} else {
 			System.out.println("invalid input");
 		}
-	}
-
-	private void transactions() {
-		System.out.println("Transction");
-	}
-
-	private void customerAcocunts() {
-		System.out.println("customer accounts");
-
-	}
-
-	private void pendingAccounts() {
-		System.out.println("pending accounts");
-
 	}
 
 }

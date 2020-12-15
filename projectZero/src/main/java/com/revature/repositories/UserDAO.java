@@ -20,7 +20,7 @@ public class UserDAO implements IUserDAO{
 	
 	
 	
-	public User findUserByUsername(String username) throws UserNotFoundException, InternalErrorException{
+public User findUserByUsername(String username) throws UserNotFoundException, InternalErrorException{
 		
 		
 		Connection conn = cf.getConnection();
@@ -42,13 +42,52 @@ public class UserDAO implements IUserDAO{
 				u.setType(res.getString("type"));
 				
 				getUser.executeQuery();
-
-
 				return u;
 			
 			}else {
 				throw new UserNotFoundException();
 			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new InternalErrorException();
+			
+		}finally {
+			cf.releaseConnection(conn);
+		}		
+			}	
+			
+		
+public User findUserByUsernameAndPassword(String username, String password) throws UserNotFoundException, InternalErrorException{
+				
+				
+				Connection conn = cf.getConnection();
+				try {
+					String sql = "select * from users where \"username\" = ? and \"password\" = ?;";
+					PreparedStatement getUser = conn.prepareStatement(sql);
+					getUser.setString(1, username);
+					getUser.setString(2, password);
+
+					
+					ResultSet res = getUser.executeQuery();
+					if(res.next()) {
+						User u = new User();
+						u.setUserId(res.getInt("user_id"));
+						u.setUsername(res.getString("username"));
+						u.setPassword(res.getString("password"));
+						u.setFirstName(res.getString("firstname"));
+						u.setLastName(res.getString("lastname"));
+						u.setStatus(res.getString("status"));
+						u.setBalance(res.getDouble("balance"));
+						u.setType(res.getString("type"));
+						
+						getUser.executeQuery();
+
+
+						return u;
+					
+					}else {
+						throw new UserNotFoundException();
+					}
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -57,13 +96,8 @@ public class UserDAO implements IUserDAO{
 		}finally {
 			cf.releaseConnection(conn);
 		}		
-			}
-
-	public java.util.List<User> findAll() {
-		//TODO
-		return null;
-	}
-	
+			}	
+			
 public User changeType(User u) throws BalanceBelowZeroException, InternalErrorException {
 		
 
@@ -136,6 +170,39 @@ public User setBalance(User u , Double balance ) throws BalanceBelowZeroExceptio
 		return u;		
 			}	
 
+public User rejectBalance(String status , Double balance ) throws UserNotFoundException, InternalErrorException{
+
+	Connection conn = cf.getConnection();
+	try {
+		conn.setAutoCommit(false);
+		String sql = "update users "
+				+ "set balance = ? "
+				+ "Where username = ?";
+		System.out.println(status);
+		
+		PreparedStatement updateAccount = conn.prepareStatement(sql);
+		updateAccount.setDouble(1, balance);
+		updateAccount.setString(2, status);
+		
+		updateAccount.executeUpdate();
+		conn.commit();
+		
+	}catch(SQLException e) {
+		
+		e.printStackTrace();
+		throw new InternalErrorException();
+		
+		
+	}finally {
+
+		cf.releaseConnection(conn);
+	
+	}
+
+	return u;		
+		}	
+
+
 
 public User newAccount(User u) throws InvalidInputsExeption, InternalErrorException {
 	
@@ -170,8 +237,6 @@ public User newAccount(User u) throws InvalidInputsExeption, InternalErrorExcept
 	return null;		
 		}
 public User getType(String username) throws UserNotFoundException, InternalErrorException{
-	
-	
 	Connection conn = cf.getConnection();
 	try {
 		String sql = "select type from users where \"username\" = ?;";
@@ -206,10 +271,113 @@ public User getType(String username) throws UserNotFoundException, InternalError
 	}		
 		}
 
+public User changeStatusActive(User u) throws UserNotFoundException, InternalErrorException {
+	
 
+	Connection conn = cf.getConnection();
+	try {
+		conn.setAutoCommit(false);
+		String sql = "update users "
+				+ "set status = ? "
+				+ "Where username = ? And password = ?";
 
+		
+		PreparedStatement updateAccount = conn.prepareStatement(sql);
+		updateAccount.setString(1,"ACTIVE");
+		updateAccount.setString(2, u.getUsername());
+		updateAccount.setString(3, u.getPassword());
+		
+		updateAccount.executeUpdate();
+	
+		
+	}catch(SQLException e) {
+		
+		e.printStackTrace();
+		throw new InternalErrorException();
+		
+		
+	}finally {
+		try {
+			conn.commit();
+			conn.setAutoCommit(true);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		cf.releaseConnection(conn);
+	
+	}
+	return u;		
+}
+public User changeStatusDenied(User u) throws UserNotFoundException, InternalErrorException {
 
 	
+
+	Connection conn = cf.getConnection();
+	try {
+		conn.setAutoCommit(false);
+		String sql = "update users "
+				+ "set status = ? "
+				+ "Where username = ? And password = ?";
+
+		
+		PreparedStatement updateAccount = conn.prepareStatement(sql);
+		updateAccount.setString(1,"DENIED");
+		updateAccount.setString(2, u.getUsername());
+		updateAccount.setString(3, u.getPassword());
+		
+		updateAccount.executeUpdate();
 	
+		
+	}catch(SQLException e) {
+		
+		e.printStackTrace();
+		throw new InternalErrorException();
+		
+		
+	}finally {
+		try {
+			conn.commit();
+			conn.setAutoCommit(true);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		cf.releaseConnection(conn);
 	
+	}
+	return u;		
+}
+
+
+public void setTransfer(String originalSender, String type,Double balance) throws UserNotFoundException, InternalErrorException {
+	
+
+	Connection conn = cf.getConnection();
+	try {
+		conn.setAutoCommit(false);
+		String sql = "update users "
+				+ "set type = ?, balance = ?, status = ? "
+				+ "Where username = ?";
+		
+		PreparedStatement updateAccount = conn.prepareStatement(sql);
+		updateAccount.setString(1, type);
+		updateAccount.setDouble(2, balance);
+		updateAccount.setString(3, originalSender);
+		updateAccount.setString(4, "transfer");
+		
+		updateAccount.executeUpdate();
+		conn.commit();
+		
+	}catch(SQLException e) {
+		
+		e.printStackTrace();
+		throw new InternalErrorException();
+		
+		
+	}finally {
+
+		cf.releaseConnection(conn);
+	
+	}	
+		}	
+
 }
