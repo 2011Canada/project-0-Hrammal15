@@ -199,7 +199,7 @@ public User rejectBalance(String status , Double balance ) throws UserNotFoundEx
 	
 	}
 
-	return u;		
+	return null;		
 		}	
 
 

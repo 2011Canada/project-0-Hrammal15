@@ -20,6 +20,28 @@ public class EmployeeServicesImplementation implements EmployeeServices{
 	Scanner sc = new Scanner(System.in);
 	IUserDAO userDAO = new UserDAO();
 	public static Logger project0loggerTransactions = LogManager.getLogger("com.revature.project0HassenELTransactions");
+	
+	public void employeeDisplay() {
+		System.out.println("======================");
+
+		System.out.println("Please press\n" + "1 - View Pending Accounts\n" + "2 - View Customer Account\n"
+				+ "3 - View All Transactions\n");
+		System.out.println("======================");
+
+		int input = sc.nextInt();
+
+		if (input == 1) {
+			acceptOrReject();
+		} else if (input == 2) {
+			viewBankAccount();
+		} else if (input == 3) {
+			readTransactions();
+		} else if(input == 4){
+			
+		}else {
+			System.out.println("invalid input");
+		}
+	}
 
 
 
@@ -39,6 +61,7 @@ public class EmployeeServicesImplementation implements EmployeeServices{
 		} catch (UserNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			acceptOrReject();
 		} catch (InternalErrorException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -52,6 +75,7 @@ public class EmployeeServicesImplementation implements EmployeeServices{
 		} catch (UserNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			acceptOrReject();
 		} catch (InternalErrorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,6 +99,7 @@ public class EmployeeServicesImplementation implements EmployeeServices{
 			} catch (UserNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				acceptOrReject();
 			} catch (InternalErrorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -98,8 +123,7 @@ public class EmployeeServicesImplementation implements EmployeeServices{
 		}else {
 			System.out.println("Invalid entry");
 		}
-		System.out.println(u.getUsername() + " " + u.getPassword() + " " + u.getFirstName() + " " + u.getLastName());
-		System.out.println(u2.getUsername() + " " + u2.getPassword() + " " + u2.getFirstName() + " " + u2.getLastName());
+
 
 		return null;
 	}

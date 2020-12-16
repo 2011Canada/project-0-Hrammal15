@@ -7,12 +7,8 @@ import java.util.*;
 import com.revature.exceptions.InternalErrorException;
 import com.revature.exceptions.InvalidInputsExeption;
 import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.Customer;
 import com.revature.models.User;
-import com.revature.repositories.AccountDAO;
-import com.revature.repositories.CustomerDAO;
 import com.revature.repositories.EmployeeDAO;
-import com.revature.repositories.ICustomerDAO;
 import com.revature.repositories.IEmployeeDAO;
 import com.revature.repositories.IUserDAO;
 import com.revature.repositories.UserDAO;
@@ -26,8 +22,6 @@ public class BankMenu {
 	EmployeeServicesImplementation employeeService;
 	IUserDAO userDAO = new UserDAO();
 	IEmployeeDAO employeeDAO = new EmployeeDAO();
-	AccountDAO accountDAO = new AccountDAO();
-	CustomerDAO customerDAO = new CustomerDAO();
 	User u = new User();
 
 	static Scanner sc = new Scanner(System.in);
@@ -85,7 +79,7 @@ public class BankMenu {
 
 	public void login() { // user login menu
 		Scanner us = new Scanner(System.in);
-		
+		System.out.println("Please login\n");
 		String username, password;
 		System.out.println("Please enter your username");// Take in user
 		username = us.next();
@@ -99,17 +93,23 @@ public class BankMenu {
 		} catch (InternalErrorException e) {
 			e.printStackTrace();
 		}
+		EmployeeServicesImplementation.project0loggerTransactions.debug(u.getUsername() + " Just signed in  ");
+
 		System.out.println(u);
 		System.out.println(u.getType());
 		if (u.getType().equals("employee")) {
-
+			
 			employeeDisplay();
+			
+		}else if (u.getType().equals("customer")) {
+				if(u.getStatus().equals("PENDING")) {
+		
+				System.out.println("Account still pending. Please wait for an employee to approve it.\n");
+				 login();
+			}else {
+					customerDisplayNoAccount();
 
-		} else if (u.getType().equals("customer")) {
-
-			customerDisplayNoAccount();
-
-		} else if (u.getType().equals("customerA")) {
+		}} else if (u.getType().equals("customerA")) {
 
 			customerDisplay();
 
@@ -140,9 +140,8 @@ public class BankMenu {
 
 	public void register() { // user register menu
 		String username, password, firstname, lastname;
-		System.out.println("======================");
 
-		System.out.println("To register as a customer, please input the following\nPlease enter a Username");
+		System.out.println("To register as a customer, please input the following\nPlease enter a NEW Username");
 		username = sc.next();
 		System.out.println("\nPlease enter a password");
 		password = sc.next();
@@ -150,7 +149,6 @@ public class BankMenu {
 		firstname = sc.next();
 		System.out.println("\nPlease enter your Last name");
 		lastname = sc.next();
-		System.out.println("======================");
 
 		try {
 

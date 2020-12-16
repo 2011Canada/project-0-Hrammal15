@@ -1,1 +1,24 @@
-2020-12-14 20:43:40 project0HassenELTransactions [DEBUG] Hrammal15 Made  Nmessina15 ACTIVE
+2020-12-15 20:01:14 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:01:48 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:02:04 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:02:37 project0HassenELTransactions [DEBUG] hrammal15 Made  usernameDell ACTIVE
+2020-12-15 20:02:49 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:03:23 project0HassenELTransactions [DEBUG] usernameDell Applied for a new bank  with an initial balance of = 15000.0
+2020-12-15 20:03:45 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:03:59 project0HassenELTransactions [DEBUG] usernameDell viewed their balance 
+2020-12-15 20:04:16 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:05:15 project0HassenELTransactions [DEBUG] usernameDell Just tried to withdrawal  20000.0 from their account but was denied since it exceeded their balance
+2020-12-15 20:05:19 project0HassenELTransactions [DEBUG] usernameDell Just tried to withdrawal  5000.0 from their account but was denied since it exceeded their balance
+2020-12-15 20:05:19 project0HassenELTransactions [DEBUG] usernameDell Just withdrew 5000.0 from their account with a remaining balance of10000.0
+2020-12-15 20:05:28 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:05:32 project0HassenELTransactions [DEBUG] usernameDell viewed their balance 
+2020-12-15 20:05:38 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:06:00 project0HassenELTransactions [DEBUG] usernameDell Just tried to deposit  500.0 from their account but was denied since it was an invalid balance
+2020-12-15 20:06:00 project0HassenELTransactions [DEBUG] usernameDell Just deposited 500.0 Into their account
+2020-12-15 20:06:15 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:06:33 project0HassenELTransactions [DEBUG] usernameDellAccount was just viewed from the database
+2020-12-15 20:13:44 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:14:34 project0HassenELTransactions [DEBUG] customerA1 Just sent 950.0 from their account to user customerA2 with a remaining balance of = 50.0
+2020-12-15 20:14:50 project0HassenELTransactions [DEBUG] null Just signed in  
+2020-12-15 20:15:29 project0HassenELTransactions [DEBUG] customerA2 Just deposited 950.0 Into their account
+2020-12-15 20:15:51 project0HassenELTransactions [DEBUG] null Just signed in  

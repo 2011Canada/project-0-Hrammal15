@@ -1,4 +1,12 @@
-2020-12-15 02:24:53 project0HassenEL [INFO] Server has started
-2020-12-15 02:25:11 project0HassenEL [DEBUG] Jmaster15 Just sent 231.22 from their account to user Kevin15 with a remaining balance of = 500.0
-2020-12-15 02:26:12 project0HassenEL [DEBUG] Kevin15 Just deposited 231.22 Into their account
-2020-12-15 02:27:09 project0HassenEL [DEBUG] Jmaster15 Just sent 250.0 from their account to user Kevin15 with a remaining balance of = 250.0
+2020-12-15 20:01:10 project0HassenEL [INFO] Server has started
+2020-12-15 20:01:32 project0HassenEL [DEBUG] usernameDell Account was just created as a null
+2020-12-15 20:02:37 project0HassenEL [DEBUG] hrammal15 Made  usernameDell ACTIVE
+2020-12-15 20:05:15 project0HassenEL [DEBUG] usernameDell Just tried to withdrawal  20000.0 from their account but was denied since it exceeded their balance
+2020-12-15 20:05:19 project0HassenEL [DEBUG] usernameDell Just tried to withdrawal  5000.0 from their account but was denied since it exceeded their balance
+2020-12-15 20:05:19 project0HassenEL [DEBUG] usernameDell Just withdrew 5000.0 from their account with a remaining balance of10000.0
+2020-12-15 20:06:00 project0HassenEL [DEBUG] usernameDell Just tried to deposit  500.0 from their account but was denied since it was an invalid balance
+2020-12-15 20:06:00 project0HassenEL [DEBUG] usernameDell Just deposited 500.0 Into their account
+2020-12-15 20:06:33 project0HassenEL [DEBUG] usernameDellAccount was just viewed from the database
+2020-12-15 20:14:34 project0HassenEL [DEBUG] customerA1 Just tried to post  950.0 from their account but was denied since it exceeded their balance
+2020-12-15 20:14:34 project0HassenEL [DEBUG] customerA1 Just sent 950.0 from their account to user customerA2 with a remaining balance of = 50.0
+2020-12-15 20:15:29 project0HassenEL [DEBUG] customerA2 Just deposited 950.0 Into their account

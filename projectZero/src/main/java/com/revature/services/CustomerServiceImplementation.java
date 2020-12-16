@@ -2,21 +2,14 @@ package com.revature.services;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.exceptions.BalanceBelowZeroException;
 import com.revature.exceptions.InternalErrorException;
-import com.revature.exceptions.InvalidInputsExeption;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.launcher.ProjectZeroLauncher;
-import com.revature.menus.BankMenu;
-import com.revature.models.Account;
-import com.revature.models.Customer;
 import com.revature.models.User;
-import com.revature.repositories.AccountDAO;
-import com.revature.repositories.CustomerDAO;
-import com.revature.repositories.EmployeeDAO;
-import com.revature.repositories.IAccountDAO;
-import com.revature.repositories.ICustomerDAO;
-import com.revature.repositories.IEmployeeDAO;
 import com.revature.repositories.IUserDAO;
 import com.revature.repositories.UserDAO;
 
@@ -24,10 +17,10 @@ public class CustomerServiceImplementation implements CustomerService {
 	Scanner sc = new Scanner(System.in);
 
 	IUserDAO userDAO = new UserDAO();
-	ICustomerDAO customerDAO = new CustomerDAO();
-	IAccountDAO accountDAO = new AccountDAO();
 	User u;
 	static User u3;
+	public static Logger project0loggerTransactions = LogManager.getLogger("com.revature.project0HassenELTransactions");
+
 	
 	
 	public void customerDisplay() {
@@ -69,6 +62,7 @@ public class CustomerServiceImplementation implements CustomerService {
 			u = userDAO.findUserByUsernameAndPassword(username,password);
 		} catch (UserNotFoundException e2) {
 			e2.printStackTrace();
+			customerDisplay();
 		} catch (InternalErrorException e2) {
 			e2.printStackTrace();
 		}
@@ -78,6 +72,7 @@ public class CustomerServiceImplementation implements CustomerService {
 			userDAO.changeType(u);
 		} catch (BalanceBelowZeroException e) {
 			e.printStackTrace();
+			applyForNewBank();
 		} catch (InternalErrorException e) {
 			e.printStackTrace();
 		}
@@ -91,6 +86,8 @@ public class CustomerServiceImplementation implements CustomerService {
 		}
 
 		System.out.println(u);
+		project0loggerTransactions.debug(u.getUsername() + " Applied for a new bank  with an initial balance of = " + balance);
+
 
 		return u;
 
@@ -110,6 +107,7 @@ public class CustomerServiceImplementation implements CustomerService {
 		}
 
 		System.out.println("The balance for = " + u.getFirstName() + " " + u.getLastName() + " is : " + u.getBalance());
+		project0loggerTransactions.debug(u.getUsername() + " viewed their balance ");
 
 	}
 
@@ -122,11 +120,12 @@ public class CustomerServiceImplementation implements CustomerService {
 			u = userDAO.findUserByUsername(username);
 		} catch (UserNotFoundException e2) {
 			e2.printStackTrace();
+			withdrawal();
 		} catch (InternalErrorException e2) {
 			e2.printStackTrace();
 		}
 		System.out.println(u);
-		System.out.println("Your current balance is = //" + u.getBalance() + "\\ How much money would you like to withdrawal?\n" );
+		System.out.println("Your current balance is = " + u.getBalance() + " How much money would you like to withdrawal?\n" );
 		Double withdrawalAmount = sc.nextDouble();
 		boolean tf = true;
 		Double newBalance = 0.0;
@@ -136,6 +135,8 @@ public class CustomerServiceImplementation implements CustomerService {
 			System.out.println("Please enter a lower amount");
 			 withdrawalAmount = sc.nextDouble();
 			ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just tried to withdrawal  " + withdrawalAmount + " from their account but was denied since it exceeded their balance" );
+			project0loggerTransactions.debug(u.getUsername() + " Just tried to withdrawal  " + withdrawalAmount + " from their account but was denied since it exceeded their balance" );
+
 		
 		} else {
 			
@@ -152,17 +153,16 @@ public class CustomerServiceImplementation implements CustomerService {
 				e.printStackTrace();
 			}
 	
-		
-		System.out.println(u);
-					
+							
 		ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just withdrew " + withdrawalAmount + " from their account with a remaining balance of" + u.getBalance() );
-
+		project0loggerTransactions.debug(u.getUsername() + " Just withdrew " + withdrawalAmount + " from their account with a remaining balance of" + u.getBalance() );
 
 	}
 
 	public void deposit() {
 		System.out.println("Enter your username of the account");
 		String username = sc.next();
+		Double newbalance = 0.0;
 
 		try {
 			u = userDAO.findUserByUsername(username);
@@ -174,11 +174,22 @@ public class CustomerServiceImplementation implements CustomerService {
 		System.out.println(u);
 		System.out.println("How much money would you like to deposit?\n" + "Your current balance is = " + u.getBalance());
 		Double depositAmount = sc.nextDouble();
+		boolean tf = true;
+		while(tf) {
+		if(depositAmount < 0) {
+			System.out.println("Please enter a valid amount to deposit");
+			depositAmount = sc.nextDouble();
+			ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just tried to deposit  " + depositAmount + " from their account but was denied since it was an invalid balance" );
+			project0loggerTransactions.debug(u.getUsername() + " Just tried to deposit  " + depositAmount + " from their account but was denied since it was an invalid balance" );
 
-		try {
-			Double newbalance = (u.getBalance() + depositAmount);
+		}else {
+			newbalance = (u.getBalance() + depositAmount);
 			u.setBalance(newbalance);
-			userDAO.setBalance(u, newbalance);
+			tf=false;
+		}
+
+		}try {
+				userDAO.setBalance(u, newbalance);
 		} catch (BalanceBelowZeroException e) {
 			e.printStackTrace();
 		} catch (InternalErrorException e) {
@@ -193,6 +204,7 @@ public class CustomerServiceImplementation implements CustomerService {
 		}
 		System.out.println(u);
 		ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just deposited " + depositAmount + " Into their account" );
+		project0loggerTransactions.debug(u.getUsername() + " Just deposited " + depositAmount + " Into their account" );
 
 
 	}
@@ -259,6 +271,8 @@ public class CustomerServiceImplementation implements CustomerService {
 
 					
 		ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just sent " + moneySent + " from their account to user " + type + " with a remaining balance of = " + u.getBalance());
+		project0loggerTransactions.debug(u.getUsername() + " Just sent " + moneySent + " from their account to user " + type + " with a remaining balance of = " + u.getBalance());
+
 		String originalSender = u.getUsername();
 		try {
 			userDAO.setTransfer(originalSender,type, moneySent);
@@ -269,6 +283,7 @@ public class CustomerServiceImplementation implements CustomerService {
 		}
 
 		System.out.println("MONEY SENT TO " + type + " AMOUNT SENT IS " + moneySent + " -- IN PENDING STATE!");
+
 	}
 
 	
@@ -304,8 +319,8 @@ public class CustomerServiceImplementation implements CustomerService {
 			e.printStackTrace();
 		}
 		
-		System.out.println("You received a transfer with amount" + u2.getBalance()
-					+ "Would you like to accept?\n1 - to ACCEPT\n2 - REJECT");
+		System.out.println("You received a transfer with amount " + u2.getBalance()
+					+ " Would you like to accept?\n1 - to ACCEPT\n2 - to REJECT");
 		int choice = sc.nextInt();
 		System.out.println(u);
 
@@ -333,6 +348,9 @@ public class CustomerServiceImplementation implements CustomerService {
 				}
 				System.out.println(u);
 				ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just deposited " + balance + " Into their account" );
+				project0loggerTransactions.debug(u.getUsername() + " Just deposited " + balance + " Into their account" );
+
+
 
 
 			}else {
@@ -362,7 +380,9 @@ public class CustomerServiceImplementation implements CustomerService {
 				e2.printStackTrace();
 			}
 			System.out.println(u);
-			ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just deposited " + balance + " Into their account" );
+			ProjectZeroLauncher.project0logger.debug(u.getUsername() + " Just REJECTED " + balance + ". Money was returned to sender" );
+			project0loggerTransactions.debug(u.getUsername() + " Just REJECTED " + balance + ". Money was returned to sender" );
+
 
 			
 		}else {
